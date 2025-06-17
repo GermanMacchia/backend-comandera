@@ -21,6 +21,8 @@ import { TicketsModule } from './tickets/tickets.module';
 import { TiposProductoModule } from './tipos-producto/tipos-producto.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { ThrottlerBehindProxyGuard } from './utils';
+import { AreaModule } from './area/area.module';
+import { AreaMesaModule } from './area_mesa/area_mesa.module';
 
 @Module({
   imports: [
@@ -55,6 +57,8 @@ import { ThrottlerBehindProxyGuard } from './utils';
     AuthModule,
     TicketsModule,
     MesasActualesModule,
+    AreaModule,
+    AreaMesaModule,
   ],
   controllers: [AppController],
   providers: [

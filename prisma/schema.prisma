@@ -1,0 +1,180 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model Mesa{
+  id Int @id @default(autoincrement())
+  nombre String @unique
+
+  mesas_actuales Mesa_actual[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Rol{
+  id Int @id @default(autoincrement())
+  nombre String @unique
+
+  usuarios Usuario[]
+  permisos Permiso[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Permiso{
+  id Int @id @default(autoincrement())  
+  entidad String
+  handler String
+  activo Boolean
+
+  rol Rol @relation(fields: [rol_id], references: [id])
+  rol_id Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Usuario{
+  id Int @id @default(autoincrement())
+  nombre String 
+  apellido String
+  email String
+  clave String
+  activo Boolean @default(false)
+
+  mesas_actuales Mesa_actual[]
+  tickets Ticket[]
+
+  rol Rol @relation(fields: [rol_id], references: [id])
+  rol_id Int 
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Estado{
+  ABIERTA
+  CERRADA
+  ANULADA
+}
+
+model Mesa_actual{
+  id Int @id @default(autoincrement())
+  nombre String @unique
+  comensales Int
+  estado Estado @default(ABIERTA)
+
+  mesa Mesa @relation(fields: [mesa_id], references: [id])
+  mesa_id Int 
+
+  usuario Usuario @relation(fields: [usuario_id], references: [id])
+  usuario_id Int 
+
+  ticket Ticket? //one to one relation
+
+  productos Mesa_productos[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Mesa_productos{
+  id Int @id @default(autoincrement())
+
+  mesa Mesa_actual @relation(fields: [mesa_id], references: [id], onDelete: Cascade)
+  mesa_id Int 
+
+  producto Producto @relation(fields: [producto_id], references: [id])
+  producto_id Int 
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Producto{
+  id Int @id @default(autoincrement())
+  nombre String
+  precio Float
+  costo Float
+  tiempo_elaboracion Int 
+  tipo_id Int 
+  subtipo_id Int 
+
+  productos Mesa_productos[]
+  tipo_producto Tipo_producto @relation(fields: [tipo_id], references: [id])
+  sutipo_producto Subtipo_producto @relation(fields: [subtipo_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Tipo_producto{
+  id Int @id @default(autoincrement())
+  nombre String
+
+  producto Producto[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subtipo_producto{
+  id Int @id @default(autoincrement())
+  nombre String
+
+  producto Producto[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Ticket{
+  id Int @id @default(autoincrement())
+  total Int
+
+  usuario Usuario @relation(fields: [usuario_id], references: [id])
+  usuario_id Int 
+
+  mesa Mesa_actual @relation(fields: [mesa_actual_id], references: [id])
+  mesa_actual_id Int @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Area {
+  id         Int         @id @default(autoincrement())
+  nombre     String
+  color      String
+  usuario_id Int
+  areaMesas  AreaMesa[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AreaMesa {
+  id         Int      @id @default(autoincrement())
+  area_id    Int
+  mesa_id    Int
+  area       Area     @relation(fields: [area_id], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
