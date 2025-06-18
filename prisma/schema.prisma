@@ -16,9 +16,12 @@ datasource db {
 
 model Mesa{
   id Int @id @default(autoincrement())
-  nombre String @unique
+  nombre String   @unique
 
   mesas_actuales Mesa_actual[]
+
+  area_id    Int?      
+  area       Area?    @relation(fields: [area_id], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -26,7 +29,7 @@ model Mesa{
 
 model Rol{
   id Int @id @default(autoincrement())
-  nombre String @unique
+  nombre String   @unique 
 
   usuarios Usuario[]
   permisos Permiso[]
@@ -37,9 +40,9 @@ model Rol{
 
 model Permiso{
   id Int @id @default(autoincrement())  
-  entidad String
-  handler String
-  activo Boolean
+  entidad String  
+  handler String  
+  activo Boolean  @default(false)
 
   rol Rol @relation(fields: [rol_id], references: [id])
   rol_id Int
@@ -51,11 +54,11 @@ model Permiso{
 
 model Usuario{
   id Int @id @default(autoincrement())
-  nombre String 
-  apellido String
-  email String
-  clave String
-  activo Boolean @default(false)
+  nombre String     
+  apellido String   
+  email String      
+  clave String      
+  activo Boolean    @default(false)
 
   mesas_actuales Mesa_actual[]
   tickets Ticket[]
@@ -75,9 +78,9 @@ enum Estado{
 
 model Mesa_actual{
   id Int @id @default(autoincrement())
-  nombre String @unique
+  nombre String   @unique
   comensales Int
-  estado Estado @default(ABIERTA)
+  estado Estado   @default(ABIERTA)
 
   mesa Mesa @relation(fields: [mesa_id], references: [id])
   mesa_id Int 
@@ -89,8 +92,8 @@ model Mesa_actual{
 
   productos Mesa_productos[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Mesa_productos{
@@ -109,24 +112,26 @@ model Mesa_productos{
 
 model Producto{
   id Int @id @default(autoincrement())
-  nombre String
-  precio Float
-  costo Float
-  tiempo_elaboracion Int 
-  tipo_id Int 
-  subtipo_id Int 
+  nombre              String    
+  descripcion         String?   
+  nota                String?   
+  precio              Float
+  costo               Float
+  tiempo_elaboracion  Int? 
+  tipo_id             Int 
+  subtipo_id          Int? 
 
   productos Mesa_productos[]
   tipo_producto Tipo_producto @relation(fields: [tipo_id], references: [id])
-  sutipo_producto Subtipo_producto @relation(fields: [subtipo_id], references: [id])
+  sutipo_producto Subtipo_producto? @relation(fields: [subtipo_id], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Tipo_producto{
-  id Int @id @default(autoincrement())
-  nombre String
+  id Int          @id @default(autoincrement())
+  nombre String   
 
   producto Producto[]
 
@@ -135,8 +140,8 @@ model Tipo_producto{
 }
 
 model Subtipo_producto{
-  id Int @id @default(autoincrement())
-  nombre String
+  id Int            @id @default(autoincrement())
+  nombre String     
 
   producto Producto[]
 
@@ -145,14 +150,14 @@ model Subtipo_producto{
 }
 
 model Ticket{
-  id Int @id @default(autoincrement())
+  id Int              @id @default(autoincrement())
   total Int
 
-  usuario Usuario @relation(fields: [usuario_id], references: [id])
+  usuario Usuario     @relation(fields: [usuario_id], references: [id])
   usuario_id Int 
 
-  mesa Mesa_actual @relation(fields: [mesa_actual_id], references: [id])
-  mesa_actual_id Int @unique
+  mesa Mesa_actual    @relation(fields: [mesa_actual_id], references: [id])
+  mesa_actual_id Int  @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -160,20 +165,10 @@ model Ticket{
 
 model Area {
   id         Int         @id @default(autoincrement())
-  nombre     String
-  color      String
-  usuario_id Int
-  areaMesas  AreaMesa[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model AreaMesa {
-  id         Int      @id @default(autoincrement())
-  area_id    Int
-  mesa_id    Int
-  area       Area     @relation(fields: [area_id], references: [id])
+  nombre     String?     
+  color      String?     
+  usuario_id Int?
+  mesas      Mesa[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

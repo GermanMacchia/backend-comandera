@@ -3,14 +3,14 @@ import { IsNumber, IsOptional, IsString, Min } from 'class-validator';
 export class CreateAreaDto {
   @IsString()
   @IsOptional()
-  nombre: string;
+  public nombre: string;
 
   @IsString()
   @IsOptional()
-  color: string;
+  public color: string;
 
   @IsNumber()
   @IsOptional()
   @Min(1)
-  usuario_id: number;
+  public usuario_id: number;
 }

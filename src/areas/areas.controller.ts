@@ -7,13 +7,13 @@ import {
   Patch,
   Post,
 } from '@nestjs/common';
-import { AreaService } from './area.service';
+import { AreasService } from './areas.service';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
 
-@Controller('area')
-export class AreaController {
-  constructor(private readonly areaService: AreaService) {}
+@Controller('areas')
+export class AreasController {
+  constructor(private readonly areaService: AreasService) {}
 
   @Post()
   create(@Body() createAreaDto: CreateAreaDto) {
@@ -28,6 +28,11 @@ export class AreaController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.areaService.findOne(+id);
+  }
+
+  @Get(':usuario_id')
+  findByUsuario(@Param('usuario_id') usuario_id: string) {
+    return this.areaService.findOne(+usuario_id);
   }
 
   @Patch(':id')

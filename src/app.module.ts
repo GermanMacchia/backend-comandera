@@ -8,6 +8,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
 
 import { AppController } from '@src/app.controller';
 import { config } from '@src/config';
+import { AreasModule } from './areas/areas.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt.guard';
 import { MesaProductosModule } from './mesa-productos/mesa-productos.module';
@@ -21,8 +22,6 @@ import { TicketsModule } from './tickets/tickets.module';
 import { TiposProductoModule } from './tipos-producto/tipos-producto.module';
 import { UsuariosModule } from './usuarios/usuarios.module';
 import { ThrottlerBehindProxyGuard } from './utils';
-import { AreaModule } from './area/area.module';
-import { AreaMesaModule } from './area_mesa/area_mesa.module';
 
 @Module({
   imports: [
@@ -57,8 +56,7 @@ import { AreaMesaModule } from './area_mesa/area_mesa.module';
     AuthModule,
     TicketsModule,
     MesasActualesModule,
-    AreaModule,
-    AreaMesaModule,
+    AreasModule,
   ],
   controllers: [AppController],
   providers: [

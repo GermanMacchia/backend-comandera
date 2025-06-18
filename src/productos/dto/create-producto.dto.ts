@@ -1,10 +1,24 @@
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsNumber, IsString, Min } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator';
 
 export class CreateProductoDto {
   @IsString()
   @IsNotEmpty()
   public nombre: string;
+
+  @IsString()
+  @IsOptional()
+  public descripcion: string;
+
+  @IsString()
+  @IsOptional()
+  public nota: string;
 
   @IsNumber({ maxDecimalPlaces: 2 })
   @IsNotEmpty()

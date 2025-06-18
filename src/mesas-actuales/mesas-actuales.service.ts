@@ -73,7 +73,6 @@ export class MesasActualesService extends PrismaClient implements OnModuleInit {
 
     if (!mesa) throw new NotFoundException('Mesa actual inexistente');
 
-    console.log(mesa);
     return this.mesa_actual.delete({ where: { id } });
   }
 }

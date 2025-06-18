@@ -3,13 +3,13 @@ import { IsNumber, Min } from 'class-validator';
 export class CreateMesaActualDto {
   @IsNumber()
   @Min(1)
-  comensales: number;
+  public comensales: number;
 
   @IsNumber()
   @Min(1)
-  mesa_id: number;
+  public mesa_id: number;
 
   @IsNumber()
   @Min(1)
-  usuario_id: number;
+  public usuario_id: number;
 }
