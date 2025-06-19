@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { AreasService } from './areas.service';
 import { CreateAreaDto } from './dto/create-area.dto';
@@ -21,18 +22,13 @@ export class AreasController {
   }
 
   @Get()
-  findAll() {
-    return this.areaService.findAll();
+  findAll(@Query('usuario_id') usuario_id?: string) {
+    return this.areaService.findAll(+usuario_id);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.areaService.findOne(+id);
-  }
-
-  @Get(':usuario_id')
-  findByUsuario(@Param('usuario_id') usuario_id: string) {
-    return this.areaService.findOne(+usuario_id);
   }
 
   @Patch(':id')

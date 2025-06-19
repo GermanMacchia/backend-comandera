@@ -21,16 +21,12 @@ export class AuthService {
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.usuariosService.getByEmail(email);
 
-    if (!user) return null;
-    if (!user.rol) return null;
-
     const isMatch = await bcrypt.compare(pass, user.clave);
 
-    if (user && isMatch && user.activo && user.rol) {
-      delete user.clave;
-      return { ...user };
-    }
-    return null;
+    if (!(user && isMatch && user.activo && user.rol)) return;
+
+    delete user.clave;
+    return { ...user };
   }
 
   async login({ email, clave }) {
@@ -39,6 +35,7 @@ export class AuthService {
     if (!user) {
       throw new UnauthorizedException();
     }
+
     return this.generateToken(user);
   }
 
@@ -60,7 +57,6 @@ export class AuthService {
       const decodedToken = await this.validarEmailToken(token);
 
       if (!decodedToken || decodedToken.rol.id) {
-        console.log('cambiar');
         throw new HttpException('No valid', HttpStatus.UNAUTHORIZED);
       }
 
@@ -87,21 +83,20 @@ export class AuthService {
   }
 
   generateToken(user: any) {
-    const { email, id } = user;
-    let { rol } = user;
+    const {
+      email,
+      id,
+      rol: { nombre },
+    } = user;
 
-    if (user.rol.nombre) {
-      rol = user.rol.nombre;
-    }
-
-    const payload = { email, id, rol };
+    const payload = { email, id, nombre };
 
     const expire = this.config.get<number>('app.jwt_expire');
     return {
       access_token: this.jwtService.sign(payload),
       iat: Math.floor(Date.now() / 1000),
       exp: Math.floor(Date.now() / 1000) + expire,
-      rol,
+      user,
     };
   }
 

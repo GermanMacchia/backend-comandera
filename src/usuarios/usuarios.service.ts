@@ -62,8 +62,8 @@ export class UsuariosService extends PrismaClient implements OnModuleInit {
   async getByEmail(email: string) {
     return await this.usuario.findFirst({
       where: { email },
-      omit: { ...OMIT_TIMESTAMPS.omit },
-      include: { rol: true },
+      omit: { ...OMIT_TIMESTAMPS.omit, rol_id: true },
+      include: { rol: { ...OMIT_TIMESTAMPS } },
     });
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 import { OMIT_TIMESTAMPS } from '@src/interfaces/enum';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
@@ -25,8 +25,15 @@ export class AreasService extends PrismaClient implements OnModuleInit {
     if (!usuario) throw new NotFoundException('Usuario Inexistente');
   }
 
-  findAll() {
+  findAll(usuario_id?: number) {
+    const extra: Prisma.AreaFindManyArgs = usuario_id
+      ? {
+          where: { usuario_id },
+        }
+      : {};
+
     return this.area.findMany({
+      ...extra,
       ...this.OMIT_TIMESTAMPS,
       include: { mesas: { ...this.OMIT_TIMESTAMPS } },
     });
@@ -40,20 +47,6 @@ export class AreasService extends PrismaClient implements OnModuleInit {
     });
 
     if (!area) throw new NotFoundException('Area inexistente');
-
-    return area;
-  }
-
-  async findByUsuario(usuario_id: number) {
-    await this.checkUsuarioID(usuario_id);
-
-    const area = await this.area.findFirst({
-      where: { usuario_id },
-      ...this.OMIT_TIMESTAMPS,
-      include: { mesas: { ...this.OMIT_TIMESTAMPS } },
-    });
-
-    if (!area) throw new NotFoundException('No existe area asignada');
 
     return area;
   }
