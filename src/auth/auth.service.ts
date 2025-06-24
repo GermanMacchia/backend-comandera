@@ -83,13 +83,9 @@ export class AuthService {
   }
 
   generateToken(user: any) {
-    const {
-      email,
-      id,
-      rol: { nombre },
-    } = user;
+    const { email, id, rol } = user;
 
-    const payload = { email, id, nombre };
+    const payload = { email, id, rol };
 
     const expire = this.config.get<number>('app.jwt_expire');
     return {
@@ -98,13 +94,5 @@ export class AuthService {
       exp: Math.floor(Date.now() / 1000) + expire,
       user,
     };
-  }
-
-  generateEmailToken(user: any) {
-    const { email, id } = user;
-
-    const payload = { email, id };
-
-    return this.jwtService.sign(payload);
   }
 }
