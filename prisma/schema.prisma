@@ -11,10 +11,10 @@ model Mesas {
   id     String   @id @default(auto()) @map("_id") @db.ObjectId
   nombre String   @unique
 
-  mesas_actuales Mesa_actual[]
+  mesas_actuales Mesas_actuales[]
 
   area_id String? @db.ObjectId
-  area    Area?   @relation(fields: [area_id], references: [id])
+  area    Areas?   @relation(fields: [area_id], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -23,8 +23,8 @@ model Mesas {
 model Roles {
   id       String     @id @default(auto()) @map("_id") @db.ObjectId
   nombre   String     @unique
-  usuarios Usuario[]
-  permisos Permiso[]
+  usuarios Usuarios[]
+  permisos Permisos[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -37,7 +37,7 @@ model Permisos {
   activo  Boolean  @default(false)
 
   rol_id String   @db.ObjectId
-  rol    Rol      @relation(fields: [rol_id], references: [id])
+  rol    Roles      @relation(fields: [rol_id], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -51,11 +51,11 @@ model Usuarios {
   clave    String
   activo   Boolean  @default(false)
 
-  mesas_actuales Mesa_actual[]
-  tickets        Ticket[]
+  mesas_actuales Mesas_actuales[]
+  tickets        Tickets[]
 
   rol_id String  @db.ObjectId
-  rol    Rol     @relation(fields: [rol_id], references: [id])
+  rol    Roles     @relation(fields: [rol_id], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -74,14 +74,14 @@ model Mesas_actuales {
   estado     Estado   @default(ABIERTA)
 
   mesa_id    String   @db.ObjectId
-  mesa       Mesa     @relation(fields: [mesa_id], references: [id])
+  mesa       Mesas     @relation(fields: [mesa_id], references: [id])
 
   usuario_id String   @db.ObjectId
-  usuario    Usuario  @relation(fields: [usuario_id], references: [id])
+  usuario    Usuarios  @relation(fields: [usuario_id], references: [id])
 
-  ticket     Ticket?
+  ticket     Tickets?
 
-  productos  Mesa_productos[]
+  productos  Mesas_productos[]
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -91,10 +91,10 @@ model Mesas_productos {
   id           String         @id @default(auto()) @map("_id") @db.ObjectId
 
   mesa_id      String         @db.ObjectId
-  mesa         Mesa_actual    @relation(fields: [mesa_id], references: [id], onDelete: Cascade)
+  mesa         Mesas_actuales    @relation(fields: [mesa_id], references: [id], onDelete: Cascade)
 
   producto_id  String         @db.ObjectId
-  producto     Producto       @relation(fields: [producto_id], references: [id])
+  producto     Productos       @relation(fields: [producto_id], references: [id])
 
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
@@ -112,9 +112,9 @@ model Productos {
   tipo_id           String            @db.ObjectId
   subtipo_id        String?           @db.ObjectId
 
-  productos         Mesa_productos[]
-  tipo_producto     Tipo_producto     @relation(fields: [tipo_id], references: [id])
-  sutipo_producto   Subtipo_producto? @relation(fields: [subtipo_id], references: [id])
+  productos         Mesas_productos[]
+  tipo_producto     Tipos_productos    @relation(fields: [tipo_id], references: [id])
+  sutipo_producto   Subtipos_productos? @relation(fields: [subtipo_id], references: [id])
 
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
@@ -123,7 +123,7 @@ model Productos {
 model Tipos_productos {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   nombre    String
-  producto  Producto[]
+  producto  Productos[]
 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -132,7 +132,7 @@ model Tipos_productos {
 model Subtipos_productos {
   id        String     @id @default(auto()) @map("_id") @db.ObjectId
   nombre    String
-  producto  Producto[]
+  producto  Productos[]
 
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -143,10 +143,10 @@ model Tickets {
   total           Int
 
   usuario_id      String   @db.ObjectId
-  usuario         Usuario  @relation(fields: [usuario_id], references: [id])
+  usuario         Usuarios  @relation(fields: [usuario_id], references: [id])
 
   mesa_actual_id  String   @unique @db.ObjectId
-  mesa            Mesa_actual @relation(fields: [mesa_actual_id], references: [id])
+  mesa            Mesas_actuales @relation(fields: [mesa_actual_id], references: [id])
 
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -157,7 +157,7 @@ model Areas {
   nombre     String?
   color      String?
   usuario_id String?   @db.ObjectId
-  mesas      Mesa[]
+  mesas      Mesas[]
 
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
