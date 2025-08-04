@@ -28,14 +28,14 @@ export class MesasController {
 
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() updateMesaDto: UpdateMesaDto,
   ) {
     return this.mesasService.update(id, updateMesaDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.mesasService.remove(id);
   }
 }

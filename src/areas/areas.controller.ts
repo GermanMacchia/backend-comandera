@@ -23,21 +23,21 @@ export class AreasController {
 
   @Get()
   findAll(@Query('usuario_id') usuario_id?: string) {
-    return this.areaService.findAll(+usuario_id);
+    return this.areaService.findAll(usuario_id);
   }
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.areaService.findOne(+id);
+    return this.areaService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAreaDto: UpdateAreaDto) {
-    return this.areaService.update(+id, updateAreaDto);
+    return this.areaService.update(id, updateAreaDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.areaService.remove(+id);
+    return this.areaService.remove(id);
   }
 }

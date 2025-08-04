@@ -8,6 +8,7 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 @Injectable()
 export class UsuariosService extends PrismaClient implements OnModuleInit {
   OMIT_TIMESTAMPS = OMIT_TIMESTAMPS;
+
   onModuleInit() {
     this.$connect();
   }
@@ -18,7 +19,7 @@ export class UsuariosService extends PrismaClient implements OnModuleInit {
       createUsuarioDto.clave = await bcrypt.hash(createUsuarioDto.clave, salt);
     }
 
-    return await this.usuario.create({
+    return this.usuario.create({
       data: createUsuarioDto,
       omit: { clave: true },
     });
@@ -31,7 +32,7 @@ export class UsuariosService extends PrismaClient implements OnModuleInit {
     });
   }
 
-  async update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
+  async update(id: string, updateUsuarioDto: UpdateUsuarioDto) {
     const usuario = await this.usuario.findFirst({ where: { id } });
 
     if (updateUsuarioDto.clave) {
@@ -41,26 +42,26 @@ export class UsuariosService extends PrismaClient implements OnModuleInit {
 
     if (!usuario) throw new NotFoundException('Usuario inexistente');
 
-    return await this.usuario.update({
+    return this.usuario.update({
       data: updateUsuarioDto,
       where: { id },
       omit: { ...OMIT_TIMESTAMPS.omit, clave: true },
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const usuario = await this.usuario.findFirst({ where: { id } });
 
     if (!usuario) throw new NotFoundException('Usuario inexistente');
 
-    return await this.usuario.delete({
+    return this.usuario.delete({
       where: { id },
       omit: { ...OMIT_TIMESTAMPS.omit, clave: true },
     });
   }
 
-  async getByEmail(email: string) {
-    return await this.usuario.findFirst({
+  getByEmail(email: string) {
+    return this.usuario.findFirst({
       where: { email },
       omit: { ...OMIT_TIMESTAMPS.omit, rol_id: true },
       include: { rol: { ...OMIT_TIMESTAMPS } },

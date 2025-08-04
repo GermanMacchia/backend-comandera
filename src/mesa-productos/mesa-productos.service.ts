@@ -17,7 +17,7 @@ export class MesaProductosService extends PrismaClient implements OnModuleInit {
     return this.mesa_productos.findMany();
   }
 
-  async update(id: number, updateMesaProductoDto: UpdateMesaProductoDto) {
+  async update(id: string, updateMesaProductoDto: UpdateMesaProductoDto) {
     const mesa = await this.mesa_productos.findFirst({ where: { id } });
 
     if (!mesa) throw new NotFoundException('Mesa Producto inexistente');
@@ -28,7 +28,7 @@ export class MesaProductosService extends PrismaClient implements OnModuleInit {
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const mesa = await this.mesa_productos.findFirst({ where: { id } });
 
     if (!mesa) throw new NotFoundException('Mesa Producto inexistente');

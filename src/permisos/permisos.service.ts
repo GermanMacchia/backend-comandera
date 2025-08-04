@@ -10,7 +10,7 @@ export class PermisosService extends PrismaClient implements OnModuleInit {
 
   findAll() {}
 
-  update(id: number, updatePermisoDto: UpdatePermisoDto) {}
+  update(id: string, updatePermisoDto: UpdatePermisoDto) {}
 
   async validate(data: any) {
     try {

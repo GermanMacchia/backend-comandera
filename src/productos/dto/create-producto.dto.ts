@@ -38,15 +38,11 @@ export class CreateProductoDto {
   @Type(() => Number)
   public tiempo_elaboracion: number;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  @Min(0)
-  @Type(() => Number)
-  public tipo_id: number;
+  public tipo_id: string;
 
-  @IsNumber()
+  @IsString()
   @IsNotEmpty()
-  @Min(0)
-  @Type(() => Number)
-  public subtipo_id: number;
+  public subtipo_id: string;
 }

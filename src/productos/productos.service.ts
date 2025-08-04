@@ -28,7 +28,7 @@ export class ProductosService extends PrismaClient implements OnModuleInit {
     });
   }
 
-  async update(id: number, updateProductoDto: UpdateProductoDto) {
+  async update(id: string, updateProductoDto: UpdateProductoDto) {
     const producto = await this.producto.findFirst({ where: { id } });
 
     if (!producto) throw new NotFoundException('Producto inexistente');
@@ -36,7 +36,7 @@ export class ProductosService extends PrismaClient implements OnModuleInit {
     return this.producto.update({ data: updateProductoDto, where: { id } });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const producto = await this.producto.findFirst({ where: { id } });
 
     if (!producto) throw new NotFoundException('Producto inexistente');

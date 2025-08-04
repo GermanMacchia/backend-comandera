@@ -31,14 +31,14 @@ export class SubtiposProductoController {
 
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: string,
+    @Param('id') id: string,
     @Body() updateSubtipoDto: UpdateSubtipoDto,
   ) {
-    return this.subtiposProductosService.update(+id, updateSubtipoDto);
+    return this.subtiposProductosService.update(id, updateSubtipoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.subtiposProductosService.remove(id);
   }
 }

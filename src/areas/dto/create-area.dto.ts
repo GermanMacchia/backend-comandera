@@ -9,8 +9,7 @@ export class CreateAreaDto {
   @IsOptional()
   public color: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  @Min(1)
-  public usuario_id: number;
+  public usuario_id: string;
 }

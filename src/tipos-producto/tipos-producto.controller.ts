@@ -29,14 +29,14 @@ export class TiposProductoController {
 
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: string,
+    @Param('id') id: string,
     @Body() updateTipoDto: UpdateTipoDto,
   ) {
-    return this.tiposProductosService.update(+id, updateTipoDto);
+    return this.tiposProductosService.update(id, updateTipoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.tiposProductosService.remove(id);
   }
 }

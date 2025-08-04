@@ -1,11 +1,9 @@
-import { IsNumber, Min } from 'class-validator';
+import { IsNumber, IsString, Min } from 'class-validator';
 
 export class CreateMesaProductoDto {
-  @IsNumber()
-  @Min(1)
-  mesa_id: number;
+  @IsString()
+  mesa_id: string;
 
-  @IsNumber()
-  @Min(1)
-  producto_id: number;
+  @IsString()
+  producto_id: string;
 }

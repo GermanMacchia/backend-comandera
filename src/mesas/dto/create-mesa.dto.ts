@@ -4,7 +4,7 @@ export class CreateMesaDto {
   @IsString()
   public nombre: string;
 
-  @IsNumber()
+  @IsString()
   @IsOptional()
-  public area_id: number;
+  public area_id: string;
 }

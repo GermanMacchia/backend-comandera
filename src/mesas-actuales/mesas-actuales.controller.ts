@@ -27,20 +27,20 @@ export class MesasActualesController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id') id: string) {
     return this.mesasActualesService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id') id: string,
     @Body() updateMesasActualeDto: UpdateMesaActualDto,
   ) {
     return this.mesasActualesService.update(id, updateMesasActualeDto);
   }
 
   @Delete(':id')
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.mesasActualesService.remove(id);
   }
 }

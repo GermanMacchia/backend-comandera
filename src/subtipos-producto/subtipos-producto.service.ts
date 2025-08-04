@@ -20,7 +20,7 @@ export class SubtiposProductoService
     return this.subtipo_producto.findMany();
   }
 
-  async update(id: number, updateSubtipoDto: UpdateSubtipoDto) {
+  async update(id: string, updateSubtipoDto: UpdateSubtipoDto) {
     const subtipo = await this.subtipo_producto.findFirst({ where: { id } });
 
     if (!subtipo) throw new NotFoundException('Subtipo Producto inexistente');
@@ -31,7 +31,7 @@ export class SubtiposProductoService
     });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const subtipo = await this.subtipo_producto.findFirst({ where: { id } });
 
     if (!subtipo) throw new NotFoundException('Subtipo Producto inexistente');

@@ -17,7 +17,7 @@ export class TiposProductoService extends PrismaClient implements OnModuleInit {
     return this.tipo_producto.findMany();
   }
 
-  async update(id: number, updateTipoDto: UpdateTipoDto) {
+  async update(id: string, updateTipoDto: UpdateTipoDto) {
     const tipo = await this.tipo_producto.findFirst({ where: { id } });
 
     if (!tipo) throw new NotFoundException('Tipo Producto inexistente');
@@ -25,7 +25,7 @@ export class TiposProductoService extends PrismaClient implements OnModuleInit {
     return this.tipo_producto.update({ data: updateTipoDto, where: { id } });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const tipo = await this.tipo_producto.findFirst({ where: { id } });
 
     if (!tipo) throw new NotFoundException('Tipo Producto inexistente');

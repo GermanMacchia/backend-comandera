@@ -26,8 +26,6 @@ export class CreateUsuarioDto {
   @IsBoolean()
   public activo: boolean;
 
-  @IsNumber()
-  @Min(1)
-  @Type(() => Number)
-  public rol_id: number;
+  @IsString()
+  public rol_id: string;
 }

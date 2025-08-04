@@ -20,12 +20,12 @@ export class AreasService extends PrismaClient implements OnModuleInit {
     return await this.area.create({ data: createAreaDto });
   }
 
-  async checkUsuarioID(id: number) {
+  async checkUsuarioID(id: string) {
     const usuario = await this.usuario.findUnique({ where: { id } });
     if (!usuario) throw new NotFoundException('Usuario Inexistente');
   }
 
-  findAll(usuario_id?: number) {
+  findAll(usuario_id?: string) {
     const extra: Prisma.AreaFindManyArgs = usuario_id
       ? {
           where: { usuario_id },
@@ -39,7 +39,7 @@ export class AreasService extends PrismaClient implements OnModuleInit {
     });
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const area = await this.area.findFirst({
       where: { id },
       ...this.OMIT_TIMESTAMPS,
@@ -51,7 +51,7 @@ export class AreasService extends PrismaClient implements OnModuleInit {
     return area;
   }
 
-  async update(id: number, updateAreaDto: UpdateAreaDto) {
+  async update(id: string, updateAreaDto: UpdateAreaDto) {
     const area = await this.area.findFirst({ where: { id } });
 
     const { usuario_id } = updateAreaDto;
@@ -63,7 +63,7 @@ export class AreasService extends PrismaClient implements OnModuleInit {
     return this.area.update({ data: updateAreaDto, where: { id } });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const area = await this.area.findFirst({ where: { id } });
 
     if (!area) throw new NotFoundException('Mesa actual inexistente');

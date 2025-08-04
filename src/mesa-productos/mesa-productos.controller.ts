@@ -30,11 +30,11 @@ export class MesaProductosController {
     @Param('id') id: string,
     @Body() updateMesaProductoDto: UpdateMesaProductoDto,
   ) {
-    return this.mesaProductosService.update(+id, updateMesaProductoDto);
+    return this.mesaProductosService.update(id, updateMesaProductoDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.mesaProductosService.remove(+id);
+    return this.mesaProductosService.remove(id);
   }
 }

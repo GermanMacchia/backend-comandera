@@ -12,6 +12,7 @@ import { UpdateMesaActualDto } from './dto/update-mesa-actual.dto';
 @Injectable()
 export class MesasActualesService extends PrismaClient implements OnModuleInit {
   OMIT_TIMESTAMPS = OMIT_TIMESTAMPS;
+
   onModuleInit() {
     this.$connect();
   }
@@ -45,7 +46,7 @@ export class MesasActualesService extends PrismaClient implements OnModuleInit {
     });
   }
 
-  async findOne(id: number) {
+  async findOne(id: string) {
     const mesa = await this.mesa_actual.findFirst({
       where: { id },
       include: {
@@ -60,7 +61,7 @@ export class MesasActualesService extends PrismaClient implements OnModuleInit {
     return mesa;
   }
 
-  async update(id: number, updateMesaDto: UpdateMesaActualDto) {
+  async update(id: string, updateMesaDto: UpdateMesaActualDto) {
     const mesa = await this.mesa_actual.findFirst({ where: { id } });
 
     if (!mesa) throw new NotFoundException('Mesa actual inexistente');
@@ -68,7 +69,7 @@ export class MesasActualesService extends PrismaClient implements OnModuleInit {
     return this.mesa_actual.update({ data: updateMesaDto, where: { id } });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const mesa = await this.mesa_actual.findFirst({ where: { id } });
 
     if (!mesa) throw new NotFoundException('Mesa actual inexistente');
