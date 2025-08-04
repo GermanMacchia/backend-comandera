@@ -10,26 +10,26 @@ export class RolesService extends PrismaClient implements OnModuleInit {
   }
 
   create(createRolDto: CreateRolDto) {
-    return this.rol.create({ data: createRolDto });
+    return this.roles.create({ data: createRolDto });
   }
 
   findAll() {
-    return this.rol.findMany();
+    return this.roles.findMany();
   }
 
   async update(id: string, updateRolDto: UpdateRolDto) {
-    const rol = await this.rol.findFirst({ where: { id } });
+    const rol = await this.roles.findFirst({ where: { id } });
 
     if (!rol) throw new NotFoundException('Rol inexistente');
 
-    return this.rol.update({ data: updateRolDto, where: { id } });
+    return this.roles.update({ data: updateRolDto, where: { id } });
   }
 
   async remove(id: string) {
-    const rol = await this.rol.findFirst({ where: { id } });
+    const rol = await this.roles.findFirst({ where: { id } });
 
     if (!rol) throw new NotFoundException('Rol inexistente');
 
-    return this.rol.delete({ where: { id } });
+    return this.roles.delete({ where: { id } });
   }
 }

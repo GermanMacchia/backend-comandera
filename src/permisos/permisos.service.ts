@@ -14,7 +14,7 @@ export class PermisosService extends PrismaClient implements OnModuleInit {
 
   async validate(data: any) {
     try {
-      const permiso = await this.permiso.findFirst({
+      const permiso = await this.permisos.findFirst({
         select: {
           activo: true,
         },
@@ -34,7 +34,7 @@ export class PermisosService extends PrismaClient implements OnModuleInit {
   }
 
   async createBulk({ entidad, handler }) {
-    const roles = await this.rol.findMany();
+    const roles = await this.roles.findMany();
 
     const rolesWithDetails = roles.map((role) => ({
       rol_id: role.id,
@@ -43,6 +43,6 @@ export class PermisosService extends PrismaClient implements OnModuleInit {
       activo: false,
     }));
 
-    return await this.permiso.createMany({ data: rolesWithDetails });
+    return await this.permisos.createMany({ data: rolesWithDetails });
   }
 }

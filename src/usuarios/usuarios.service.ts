@@ -19,21 +19,21 @@ export class UsuariosService extends PrismaClient implements OnModuleInit {
       createUsuarioDto.clave = await bcrypt.hash(createUsuarioDto.clave, salt);
     }
 
-    return this.usuario.create({
+    return this.usuarios.create({
       data: createUsuarioDto,
       omit: { clave: true },
     });
   }
 
   findAll() {
-    return this.usuario.findMany({
+    return this.usuarios.findMany({
       omit: { clave: true, rol_id: true },
       include: { rol: { ...this.OMIT_TIMESTAMPS } },
     });
   }
 
   async update(id: string, updateUsuarioDto: UpdateUsuarioDto) {
-    const usuario = await this.usuario.findFirst({ where: { id } });
+    const usuario = await this.usuarios.findFirst({ where: { id } });
 
     if (updateUsuarioDto.clave) {
       const salt = await bcrypt.genSalt();
@@ -42,7 +42,7 @@ export class UsuariosService extends PrismaClient implements OnModuleInit {
 
     if (!usuario) throw new NotFoundException('Usuario inexistente');
 
-    return this.usuario.update({
+    return this.usuarios.update({
       data: updateUsuarioDto,
       where: { id },
       omit: { ...OMIT_TIMESTAMPS.omit, clave: true },
@@ -50,18 +50,18 @@ export class UsuariosService extends PrismaClient implements OnModuleInit {
   }
 
   async remove(id: string) {
-    const usuario = await this.usuario.findFirst({ where: { id } });
+    const usuario = await this.usuarios.findFirst({ where: { id } });
 
     if (!usuario) throw new NotFoundException('Usuario inexistente');
 
-    return this.usuario.delete({
+    return this.usuarios.delete({
       where: { id },
       omit: { ...OMIT_TIMESTAMPS.omit, clave: true },
     });
   }
 
   getByEmail(email: string) {
-    return this.usuario.findFirst({
+    return this.usuarios.findFirst({
       where: { email },
       omit: { ...OMIT_TIMESTAMPS.omit, rol_id: true },
       include: { rol: { ...OMIT_TIMESTAMPS } },

@@ -10,26 +10,26 @@ export class TiposProductoService extends PrismaClient implements OnModuleInit {
   }
 
   create(createTipoDto: CreateTipoDto) {
-    return this.tipo_producto.create({ data: createTipoDto });
+    return this.tipos_producto.create({ data: createTipoDto });
   }
 
   findAll() {
-    return this.tipo_producto.findMany();
+    return this.tipos_producto.findMany();
   }
 
   async update(id: string, updateTipoDto: UpdateTipoDto) {
-    const tipo = await this.tipo_producto.findFirst({ where: { id } });
+    const tipo = await this.tipos_producto.findFirst({ where: { id } });
 
     if (!tipo) throw new NotFoundException('Tipo Producto inexistente');
 
-    return this.tipo_producto.update({ data: updateTipoDto, where: { id } });
+    return this.tipos_producto.update({ data: updateTipoDto, where: { id } });
   }
 
   async remove(id: string) {
-    const tipo = await this.tipo_producto.findFirst({ where: { id } });
+    const tipo = await this.tipos_producto.findFirst({ where: { id } });
 
     if (!tipo) throw new NotFoundException('Tipo Producto inexistente');
 
-    return this.tipo_producto.delete({ where: { id } });
+    return this.tipos_producto.delete({ where: { id } });
   }
 }

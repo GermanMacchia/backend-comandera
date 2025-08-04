@@ -12,11 +12,11 @@ export class ProductosService extends PrismaClient implements OnModuleInit {
   }
 
   create(createProductoDto: CreateProductoDto) {
-    return this.producto.create({ data: createProductoDto });
+    return this.productos.create({ data: createProductoDto });
   }
 
   findAll() {
-    return this.producto.findMany({
+    return this.productos.findMany({
       omit: {
         tipo_id: true,
         subtipo_id: true,
@@ -29,18 +29,18 @@ export class ProductosService extends PrismaClient implements OnModuleInit {
   }
 
   async update(id: string, updateProductoDto: UpdateProductoDto) {
-    const producto = await this.producto.findFirst({ where: { id } });
+    const producto = await this.productos.findFirst({ where: { id } });
 
     if (!producto) throw new NotFoundException('Producto inexistente');
 
-    return this.producto.update({ data: updateProductoDto, where: { id } });
+    return this.productos.update({ data: updateProductoDto, where: { id } });
   }
 
   async remove(id: string) {
-    const producto = await this.producto.findFirst({ where: { id } });
+    const producto = await this.productos.findFirst({ where: { id } });
 
     if (!producto) throw new NotFoundException('Producto inexistente');
 
-    return this.producto.delete({ where: { id } });
+    return this.productos.delete({ where: { id } });
   }
 }

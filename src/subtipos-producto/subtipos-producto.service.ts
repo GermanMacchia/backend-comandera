@@ -13,29 +13,29 @@ export class SubtiposProductoService
   }
 
   create(createSubtipoDto: CreateSubtipoDto) {
-    return this.subtipo_producto.create({ data: createSubtipoDto });
+    return this.subtipos_producto.create({ data: createSubtipoDto });
   }
 
   findAll() {
-    return this.subtipo_producto.findMany();
+    return this.subtipos_producto.findMany();
   }
 
   async update(id: string, updateSubtipoDto: UpdateSubtipoDto) {
-    const subtipo = await this.subtipo_producto.findFirst({ where: { id } });
+    const subtipo = await this.subtipos_producto.findFirst({ where: { id } });
 
     if (!subtipo) throw new NotFoundException('Subtipo Producto inexistente');
 
-    return this.subtipo_producto.update({
+    return this.subtipos_producto.update({
       data: updateSubtipoDto,
       where: { id },
     });
   }
 
   async remove(id: string) {
-    const subtipo = await this.subtipo_producto.findFirst({ where: { id } });
+    const subtipo = await this.subtipos_producto.findFirst({ where: { id } });
 
     if (!subtipo) throw new NotFoundException('Subtipo Producto inexistente');
 
-    return this.subtipo_producto.delete({ where: { id } });
+    return this.subtipos_producto.delete({ where: { id } });
   }
 }

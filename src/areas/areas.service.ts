@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
-import { Prisma, PrismaClient } from '@prisma/client';
+import {  PrismaClient } from '@prisma/client';
 import { OMIT_TIMESTAMPS } from '@src/interfaces/enum';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
@@ -17,22 +17,22 @@ export class AreasService extends PrismaClient implements OnModuleInit {
 
     if (usuario_id) await this.checkUsuarioID(usuario_id);
 
-    return await this.area.create({ data: createAreaDto });
+    return await this.areas.create({ data: createAreaDto });
   }
 
   async checkUsuarioID(id: string) {
-    const usuario = await this.usuario.findUnique({ where: { id } });
+    const usuario = await this.usuarios.findUnique({ where: { id } });
     if (!usuario) throw new NotFoundException('Usuario Inexistente');
   }
 
   findAll(usuario_id?: string) {
-    const extra: Prisma.AreaFindManyArgs = usuario_id
+    const extra: any = usuario_id
       ? {
           where: { usuario_id },
         }
       : {};
 
-    return this.area.findMany({
+    return this.areas.findMany({
       ...extra,
       ...this.OMIT_TIMESTAMPS,
       include: { mesas: { ...this.OMIT_TIMESTAMPS } },
@@ -40,7 +40,7 @@ export class AreasService extends PrismaClient implements OnModuleInit {
   }
 
   async findOne(id: string) {
-    const area = await this.area.findFirst({
+    const area = await this.areas.findFirst({
       where: { id },
       ...this.OMIT_TIMESTAMPS,
       include: { mesas: { ...this.OMIT_TIMESTAMPS } },
@@ -52,7 +52,7 @@ export class AreasService extends PrismaClient implements OnModuleInit {
   }
 
   async update(id: string, updateAreaDto: UpdateAreaDto) {
-    const area = await this.area.findFirst({ where: { id } });
+    const area = await this.areas.findFirst({ where: { id } });
 
     const { usuario_id } = updateAreaDto;
 
@@ -60,14 +60,14 @@ export class AreasService extends PrismaClient implements OnModuleInit {
 
     if (!area) throw new NotFoundException('Area inexistente');
 
-    return this.area.update({ data: updateAreaDto, where: { id } });
+    return this.areas.update({ data: updateAreaDto, where: { id } });
   }
 
   async remove(id: string) {
-    const area = await this.area.findFirst({ where: { id } });
+    const area = await this.areas.findFirst({ where: { id } });
 
     if (!area) throw new NotFoundException('Mesa actual inexistente');
 
-    return this.area.delete({ where: { id } });
+    return this.areas.delete({ where: { id } });
   }
 }

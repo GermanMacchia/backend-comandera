@@ -4,7 +4,7 @@ import {
   NotFoundException,
   OnModuleInit,
 } from '@nestjs/common';
-import { Mesa, PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { OMIT_TIMESTAMPS } from '../interfaces/enum';
 import { CreateMesaActualDto } from './dto/create-mesa-actual.dto';
 import { UpdateMesaActualDto } from './dto/update-mesa-actual.dto';
@@ -18,13 +18,13 @@ export class MesasActualesService extends PrismaClient implements OnModuleInit {
   }
 
   async create(createMesaDto: CreateMesaActualDto) {
-    const mesa: Mesa = await this.mesa.findFirst({
+    const mesa = await this.mesas.findFirst({
       where: { id: createMesaDto.mesa_id },
     });
 
     if (!mesa) throw new BadRequestException('Mesa inexistente');
 
-    const cantidad = await this.mesa_actual.count({
+    const cantidad = await this.mesas_actuales.count({
       where: { mesa_id: createMesaDto.mesa_id },
     });
 
@@ -33,11 +33,11 @@ export class MesasActualesService extends PrismaClient implements OnModuleInit {
       nombre: `${mesa.nombre}/${cantidad + 1}`,
     };
 
-    return this.mesa_actual.create({ data: mesaActual });
+    return this.mesas_actuales.create({ data: mesaActual });
   }
 
   findAll() {
-    return this.mesa_actual.findMany({
+    return this.mesas_actuales.findMany({
       include: {
         mesa: { ...this.OMIT_TIMESTAMPS },
         productos: { ...this.OMIT_TIMESTAMPS },
@@ -47,7 +47,7 @@ export class MesasActualesService extends PrismaClient implements OnModuleInit {
   }
 
   async findOne(id: string) {
-    const mesa = await this.mesa_actual.findFirst({
+    const mesa = await this.mesas_actuales.findFirst({
       where: { id },
       include: {
         mesa: { ...this.OMIT_TIMESTAMPS },
@@ -62,18 +62,18 @@ export class MesasActualesService extends PrismaClient implements OnModuleInit {
   }
 
   async update(id: string, updateMesaDto: UpdateMesaActualDto) {
-    const mesa = await this.mesa_actual.findFirst({ where: { id } });
+    const mesa = await this.mesas_actuales.findFirst({ where: { id } });
 
     if (!mesa) throw new NotFoundException('Mesa actual inexistente');
 
-    return this.mesa_actual.update({ data: updateMesaDto, where: { id } });
+    return this.mesas_actuales.update({ data: updateMesaDto, where: { id } });
   }
 
   async remove(id: string) {
-    const mesa = await this.mesa_actual.findFirst({ where: { id } });
+    const mesa = await this.mesas_actuales.findFirst({ where: { id } });
 
     if (!mesa) throw new NotFoundException('Mesa actual inexistente');
 
-    return this.mesa_actual.delete({ where: { id } });
+    return this.mesas_actuales.delete({ where: { id } });
   }
 }
